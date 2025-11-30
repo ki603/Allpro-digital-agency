@@ -72,12 +72,15 @@ export interface AuditResult {
   slides: AuditSlide[];
 }
 
-export const generateAudit = async (businessInfo: string): Promise<AuditResult | null> => {
+export const generateAudit = async (businessInfo: string, lang: 'fr' | 'en' = 'fr'): Promise<AuditResult | null> => {
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: `Analyse cette entreprise ou ce projet : "${businessInfo}".
+    const languageInstruction = lang === 'fr' 
+      ? "Réponds en Français." 
+      : "Answer in English.";
+      
+    const prompt = `Analyse cette entreprise ou ce projet : "${businessInfo}".
       Agis comme un auditeur expert senior. Génère un audit concis, percutant et stratégique.
+      ${languageInstruction}
       
       Retourne UNIQUEMENT un objet JSON (sans markdown) avec la structure suivante :
       {
@@ -85,13 +88,17 @@ export const generateAudit = async (businessInfo: string): Promise<AuditResult |
         "overallScore": un nombre entre 0 et 100 estimant la maturité digitale apparente,
         "summary": "Une phrase d'accroche résumant le potentiel",
         "slides": [
-           { "title": "1. Diagnostic Digital", "points": ["Point faible 1", "Opportunité 1", "Observation clé"], "icon": "Search" },
+           { "title": "1. Diagnostic Digital" (ou équivalent EN), "points": ["Point faible 1", "Opportunité 1", "Observation clé"], "icon": "Search" },
            { "title": "2. Expérience Utilisateur (UX)", "points": ["Point 1", "Point 2", "Point 3"], "icon": "Zap" },
            { "title": "3. Stratégie & Visibilité", "points": ["SEO", "Social Media", "Branding"], "icon": "BarChart3" },
            { "title": "4. Plan d'Action Recommandé", "points": ["Action immédiate", "Projet moyen terme", "Innovation IA"], "icon": "Rocket" }
         ]
       }
-      Sois critique mais constructif. Si l'info est vague, fais des suppositions intelligentes basées sur le secteur.`,
+      Sois critique mais constructif. Si l'info est vague, fais des suppositions intelligentes basées sur le secteur.`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
       config: {
         responseMimeType: "application/json"
       }
