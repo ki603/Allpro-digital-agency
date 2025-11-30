@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All'Pro - Agence Digitale & IA</title>
+    <meta name="description" content="Agence créative et technologique. Des idées, des projets, des résultats." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Poppins:wght@500;600;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              allpro: {
+                aubergine: '#7A0044',
+                rose: '#E54A6D',
+                orange: '#FF8A00',
+                yellow: '#FFD14B',
+                dark: '#0B0B15',
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Montserrat', 'sans-serif'],
+              heading: ['Poppins', 'sans-serif'],
+              script: ['Kaushan Script', 'cursive'],
+            },
+            backgroundImage: {
+              'gradient-allpro': 'linear-gradient(135deg, #E54A6D 0%, #FF8A00 50%, #FFD14B 100%)',
+              'gradient-glass': 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'gradient-x': 'gradientX 3s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'float-delayed': 'float 6s ease-in-out 3s infinite',
+              'shimmer': 'shimmer 2s linear infinite',
+              'ken-burns': 'kenBurns 20s ease-in-out infinite alternate',
+              'spin-slow': 'spin 3s linear infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              slideUp: {
+                '0%': { opacity: '0', transform: 'translateY(40px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              gradientX: {
+                '0%': { 'background-position': '0% 50%' },
+                '100%': { 'background-position': '200% 50%' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              shimmer: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(100%)' },
+              },
+              kenBurns: {
+                '0%': { transform: 'scale(1) translate(0, 0)' },
+                '100%': { transform: 'scale(1.15) translate(-2%, -2%)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #f8fafc; /* Light Slate */
+        color: #0f172a; /* Dark Slate */
+        overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      .dark body {
+        background-color: #050511;
+        color: #FFFFFF;
+      }
+      
+      /* Glass Panel Adaptive */
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(203, 213, 225, 0.4); /* Slate 300 equivalent */
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+        will-change: transform, opacity;
+        transition: background 0.3s ease, border-color 0.3s ease;
+      }
+
+      .dark .glass-panel {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      }
+
+      /* Glass Card Adaptive */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(203, 213, 225, 0.5);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        will-change: transform;
+      }
+
+      .dark .glass-card {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      
+      /* NEON EFFECTS */
+      .neon-box-hover:hover {
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 25px rgba(229, 74, 109, 0.2), 0 0 50px rgba(50, 100, 255, 0.1);
+        border-color: rgba(229, 74, 109, 0.4);
+        transform: translateY(-8px) scale(1.01);
+      }
+
+      .dark .neon-box-hover:hover {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 25px rgba(229, 74, 109, 0.3), 0 0 50px rgba(50, 100, 255, 0.2);
+      }
+
+      .neon-text {
+        text-shadow: none;
+      }
+      
+      .dark .neon-text {
+        text-shadow: 0 0 10px rgba(229, 74, 109, 0.4);
+      }
+
+      .neon-btn {
+        box-shadow: 0 4px 15px rgba(229, 74, 109, 0.3);
+        transition: all 0.3s ease;
+      }
+      .neon-btn:hover {
+        box-shadow: 0 6px 25px rgba(229, 74, 109, 0.6), 0 0 15px rgba(255, 255, 255, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .text-gradient {
+        background: linear-gradient(135deg, #E54A6D 0%, #FF8A00 50%, #FFD14B 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Shimmer Effect */
+      .shimmer-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+        background-size: 200% 100%;
+        transform: skewX(-20deg) translateX(-150%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+      }
+      
+      .dark .shimmer-overlay {
+         background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+      }
+      
+      .group:hover .shimmer-overlay {
+        opacity: 1;
+        animation: shimmer 1.5s infinite;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.05);
+      }
+      .dark .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.05);
+      }
+      
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        will-change: transform, opacity;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "jspdf": "https://esm.sh/jspdf@2.5.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
