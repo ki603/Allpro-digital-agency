@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Rocket, Layers, Code, Megaphone, Cpu, ChevronRight, CheckCircle, ArrowRight, Instagram, Linkedin, Facebook, Youtube, Eye, Layout, Image as ImageIcon, Palette, Smartphone, Sparkles, Zap, Globe, Search, BrainCircuit, BarChart3, Fingerprint, Mail, MapPin, Scale, Shield, FileText, ClipboardList, MonitorPlay, Flag, Sun, Moon, Download, Scan, Play } from 'lucide-react';
+import { Menu, X, Rocket, Layers, Code, Megaphone, Cpu, ChevronRight, CheckCircle, ArrowRight, Instagram, Linkedin, Facebook, Youtube, Eye, Layout, Image as ImageIcon, Palette, Smartphone, Sparkles, Zap, Globe, Search, BrainCircuit, BarChart3, Fingerprint, Mail, MapPin, Scale, Shield, FileText, ClipboardList, MonitorPlay, Flag, Sun, Moon, Download, Scan, Play, Check } from 'lucide-react';
 import ChatWidget from './components/ChatWidget';
 import { generateAudit, AuditResult } from './services/geminiService';
 import { jsPDF } from 'jspdf';
@@ -313,6 +313,9 @@ const App: React.FC = () => {
   const [auditData, setAuditData] = useState<AuditResult | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Contact Form State
+  const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+
   // Theme State
   const [isDarkMode, setIsDarkMode] = useState(true);
 
@@ -353,6 +356,19 @@ const App: React.FC = () => {
       setAuditStep('input');
       alert("L'analyse a échoué. Veuillez réessayer.");
     }
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactStatus('sending');
+    // Simulate network delay
+    setTimeout(() => {
+        setContactStatus('success');
+    }, 2000);
+  };
+
+  const resetContactForm = () => {
+      setContactStatus('idle');
   };
 
   const downloadAuditPDF = () => {
@@ -1013,49 +1029,87 @@ const App: React.FC = () => {
         <section id="contact" className="py-24 px-4 mb-20">
           <div className="max-w-4xl mx-auto">
             <Reveal>
-              <GlassCard className="!p-8 md:!p-16 border-allpro-rose/20 shadow-2xl bg-white/70 dark:bg-black/30">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6">Prêt à lancer votre projet ?</h2>
-                  <p className="text-xl text-slate-600 dark:text-white/70 max-w-2xl mx-auto">
-                    Contactez All’Pro dès aujourd’hui et transformez vos idées en résultats.
-                  </p>
-                </div>
-
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Nom complet</label>
-                      <input type="text" placeholder="Votre nom" className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium placeholder-slate-400 dark:placeholder-white/30" />
+              <GlassCard className="!p-8 md:!p-16 border-allpro-rose/20 shadow-2xl bg-white/70 dark:bg-black/30 min-h-[600px] flex flex-col justify-center">
+                {contactStatus === 'success' ? (
+                  <div className="flex flex-col items-center justify-center text-center animate-fade-in-up">
+                    <div className="w-24 h-24 rounded-full bg-gradient-allpro flex items-center justify-center mb-8 shadow-2xl shadow-allpro-rose/50 animate-bounce">
+                      <Check className="text-white w-12 h-12" />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Email professionnel</label>
-                      <input type="email" placeholder="contact@entreprise.com" className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium placeholder-slate-400 dark:placeholder-white/30" />
+                    <h2 className="text-4xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-allpro mb-6 animate-pulse-slow">
+                      Message Envoyé !
+                    </h2>
+                    <p className="text-xl md:text-2xl font-heading font-semibold text-slate-800 dark:text-white mb-4 animate-slide-up delay-200">
+                      Votre vision est entre de bonnes mains.
+                    </p>
+                    <p className="text-slate-600 dark:text-white/70 max-w-lg mb-10 animate-slide-up delay-300">
+                      Nous avons bien reçu votre demande. Un expert All'Pro analysera votre projet et vous recontactera sous 24h ouvrées.
+                    </p>
+                    <button 
+                      onClick={resetContactForm}
+                      className="px-8 py-3 rounded-full border border-slate-300 dark:border-white/20 hover:bg-white/10 transition-colors text-slate-600 dark:text-white/80 font-medium"
+                    >
+                      Envoyer un autre message
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-center mb-12">
+                      <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-6">Prêt à lancer votre projet ?</h2>
+                      <p className="text-xl text-slate-600 dark:text-white/70 max-w-2xl mx-auto">
+                        Contactez All’Pro dès aujourd’hui et transformez vos idées en résultats.
+                      </p>
                     </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Sujet</label>
-                    <select className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium cursor-pointer [&>option]:text-black">
-                      <option>Création Site Web / App</option>
-                      <option>Intégration Intelligence Artificielle</option>
-                      <option>Stratégie Social Media</option>
-                      <option>Branding & Identité</option>
-                      <option>Autre demande</option>
-                    </select>
-                  </div>
 
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Message</label>
-                    <textarea rows={5} placeholder="Décrivez brièvement vos besoins..." className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium placeholder-slate-400 dark:placeholder-white/30 resize-none"></textarea>
-                  </div>
+                    <form className="space-y-6" onSubmit={handleContactSubmit}>
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Nom complet</label>
+                          <input required type="text" placeholder="Votre nom" className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium placeholder-slate-400 dark:placeholder-white/30" />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Email professionnel</label>
+                          <input required type="email" placeholder="contact@entreprise.com" className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium placeholder-slate-400 dark:placeholder-white/30" />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Sujet</label>
+                        <select className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium cursor-pointer [&>option]:text-black">
+                          <option>Création Site Web / App</option>
+                          <option>Intégration Intelligence Artificielle</option>
+                          <option>Stratégie Social Media</option>
+                          <option>Branding & Identité</option>
+                          <option>Autre demande</option>
+                        </select>
+                      </div>
 
-                  <button className="w-full py-5 rounded-xl bg-gradient-allpro text-white font-bold text-lg shadow-xl neon-btn relative overflow-hidden group mt-4">
-                    <span className="relative z-10 flex items-center justify-center gap-2">Envoyer ma demande <ArrowRight size={20} /></span>
-                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                  </button>
-                </form>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 dark:text-white/60 ml-1 uppercase tracking-wider">Message</label>
+                        <textarea required rows={5} placeholder="Décrivez brièvement vos besoins..." className="w-full px-6 py-4 rounded-xl bg-white/40 dark:bg-white/10 border border-slate-300 dark:border-white/20 focus:outline-none focus:ring-2 focus:ring-allpro-rose/50 focus:bg-white/60 dark:focus:bg-white/20 transition-all text-slate-900 dark:text-white font-medium placeholder-slate-400 dark:placeholder-white/30 resize-none"></textarea>
+                      </div>
 
-                <div className="mt-12 flex flex-col md:flex-row justify-center items-center gap-8 text-slate-600 dark:text-white/70 text-sm font-medium border-t border-slate-200 dark:border-white/10 pt-8 flex-wrap">
+                      <button 
+                        type="submit" 
+                        disabled={contactStatus === 'sending'}
+                        className="w-full py-5 rounded-xl bg-gradient-allpro text-white font-bold text-lg shadow-xl neon-btn relative overflow-hidden group mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+                      >
+                        {contactStatus === 'sending' ? (
+                          <span className="flex items-center justify-center gap-2">
+                             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                             Envoi en cours...
+                          </span>
+                        ) : (
+                          <>
+                            <span className="relative z-10 flex items-center justify-center gap-2">Envoyer ma demande <ArrowRight size={20} /></span>
+                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </>
+                )}
+
+                <div className="mt-auto flex flex-col md:flex-row justify-center items-center gap-8 text-slate-600 dark:text-white/70 text-sm font-medium border-t border-slate-200 dark:border-white/10 pt-8 flex-wrap">
                   <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div> Réponse sous 24h</span>
                   <span className="flex items-center gap-2"><Mail size={16} /> allproject.mg@gmail.com</span>
                   <span className="flex items-center gap-2"><Smartphone size={16} /> +261 38 80 048 02</span>
