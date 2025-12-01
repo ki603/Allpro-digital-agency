@@ -1,3 +1,4 @@
+
 export type Language = 'fr' | 'en';
 
 export const translations = {
@@ -5,6 +6,7 @@ export const translations = {
     nav: {
       services: "Services",
       expertise: "Expertise IA",
+      pricing: "Tarifs",
       portfolio: "Réalisations",
       method: "Méthode",
       contact: "Contact",
@@ -35,6 +37,35 @@ export const translations = {
       learn_more: "En savoir plus",
       modal_includes: "Prestations incluses",
       modal_cta: "Demander un devis"
+    },
+    pricing: {
+      title: "Nos Offres",
+      subtitle: "Une tarification transparente basée sur les coûts réels de l'infrastructure IA.",
+      base_cost_note: "*Prix indexés sur les abonnements Genspark & Hostinger",
+      plans: [
+        {
+          title: "Lite",
+          tag: "Création",
+          desc: "Idéal pour lancer un MVP ou tester une idée rapidement.",
+          features: ["Création du site/app", "Design Standard", "Intégration IA basique", "Pas de maintenance incluse"],
+          price_sub: "/ projet (One shot)"
+        },
+        {
+          title: "Plus",
+          tag: "Gestion Complète",
+          desc: "La tranquillité d'esprit : nous créons et gérons tout pour vous.",
+          features: ["Tout du pack Lite", "Hébergement Serveur inclus", "Gestion technique mensuelle", "Mises à jour de sécurité", "Support prioritaire"],
+          price_sub: "/ mois"
+        },
+        {
+          title: "Pro",
+          tag: "Sur Mesure",
+          desc: "Pour les architectures complexes nécessitant plusieurs IA.",
+          features: ["Tout du pack Plus", "Abonnements IA multiples", "Architecture Cloud complexe", "Agent dédié", "Scale-up automatique"],
+          price_sub: "/ mois (Est.)"
+        }
+      ],
+      cta: "Choisir cette offre"
     },
     audit_promo: {
         badge: "Outil Gratuit",
@@ -164,6 +195,7 @@ export const translations = {
     nav: {
       services: "Services",
       expertise: "AI Expertise",
+      pricing: "Pricing",
       portfolio: "Portfolio",
       method: "Method",
       contact: "Contact",
@@ -194,6 +226,35 @@ export const translations = {
       learn_more: "Learn more",
       modal_includes: "Included Services",
       modal_cta: "Request a Quote"
+    },
+    pricing: {
+      title: "Our Pricing",
+      subtitle: "Transparent pricing based on real AI infrastructure costs.",
+      base_cost_note: "*Prices indexed on Genspark & Hostinger subscriptions",
+      plans: [
+        {
+          title: "Lite",
+          tag: "Creation",
+          desc: "Ideal for launching an MVP or testing an idea quickly.",
+          features: ["Site/App Creation", "Standard Design", "Basic AI Integration", "No maintenance included"],
+          price_sub: "/ project (One shot)"
+        },
+        {
+          title: "Plus",
+          tag: "Full Management",
+          desc: "Peace of mind: we create and manage everything for you.",
+          features: ["Everything in Lite", "Server Hosting included", "Monthly technical management", "Security updates", "Priority support"],
+          price_sub: "/ month"
+        },
+        {
+          title: "Pro",
+          tag: "Custom",
+          desc: "For complex architectures requiring multiple AIs.",
+          features: ["Everything in Plus", "Multiple AI subscriptions", "Complex Cloud Architecture", "Dedicated Agent", "Auto Scale-up"],
+          price_sub: "/ month (Est.)"
+        }
+      ],
+      cta: "Choose this plan"
     },
     audit_promo: {
         badge: "Free Tool",

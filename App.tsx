@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Rocket, Layers, Code, Megaphone, Cpu, ChevronRight, CheckCircle, ArrowRight, Instagram, Linkedin, Facebook, Youtube, Eye, Layout, Image as ImageIcon, Palette, Smartphone, Sparkles, Zap, Globe, Search, BrainCircuit, BarChart3, Fingerprint, Mail, MapPin, Scale, Shield, FileText, ClipboardList, MonitorPlay, Flag, Sun, Moon, Download, Scan, Play, Check, ExternalLink, Target, Lightbulb } from 'lucide-react';
+import { Menu, X, Rocket, Layers, Code, Megaphone, Cpu, ChevronRight, CheckCircle, ArrowRight, Instagram, Linkedin, Facebook, Youtube, Eye, Layout, Image as ImageIcon, Palette, Smartphone, Sparkles, Zap, Globe, Search, BrainCircuit, BarChart3, Fingerprint, Mail, MapPin, Scale, Shield, FileText, ClipboardList, MonitorPlay, Flag, Sun, Moon, Download, Scan, Play, Check, ExternalLink, Target, Lightbulb, CreditCard } from 'lucide-react';
 import ChatWidget from './components/ChatWidget';
 import { generateAudit, AuditResult } from './services/geminiService';
 import jsPDF from 'jspdf';
@@ -438,6 +438,17 @@ const App: React.FC = () => {
     doc.save(`Audit_${auditData.businessName.replace(/\s/g, '_')}.pdf`);
   };
 
+  // --- Backend Simulation & Calculation Logic ---
+  // In a real app, these values would come from an API
+  const GENSPARK_PRICE = 20.00; // Simulated Base Price
+  const HOSTINGER_PRICE = 9.99; // Simulated Base Price
+  const LABOR_PERCENTAGE = 0.03;
+
+  // Calculs dynamiques
+  const litePrice = GENSPARK_PRICE;
+  const plusPrice = (GENSPARK_PRICE + HOSTINGER_PRICE) * (1 + LABOR_PERCENTAGE);
+  // Pro price depends on custom vars, handled in display
+
   // Mapped Data based on current language
   const serviceIcons = [<Layers size={32} />, <Megaphone size={32} />, <Code size={32} />, <Rocket size={32} />, <Fingerprint size={32} />, <Cpu size={32} />];
   const services = t.services_section.items.map((item, index) => ({
@@ -542,6 +553,7 @@ const App: React.FC = () => {
   // Define nav items for mapping - Fixed ID usage
   const navItems = [
     { label: t.nav.services, id: 'services' },
+    { label: t.nav.pricing, id: 'tarifs' }, // New Section
     { label: t.nav.expertise, id: 'expertise-ia' },
     { label: t.nav.portfolio, id: 'realisations' },
     { label: t.nav.method, id: 'methode' },
@@ -706,6 +718,112 @@ const App: React.FC = () => {
                 </Reveal>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* SECTION 3: PRICING (NOUVELLE SECTION) */}
+        <section id="tarifs" className="py-24 px-4 relative bg-white/30 dark:bg-white/5 backdrop-blur-sm border-y border-slate-200 dark:border-white/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal className="text-center mb-16">
+               <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 dark:text-white mb-4">{t.pricing.title}</h2>
+               <p className="text-lg text-slate-600 dark:text-white/60 max-w-2xl mx-auto">{t.pricing.subtitle}</p>
+            </Reveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               {/* LITE PLAN */}
+               <Reveal delay={0}>
+                  <div className="glass-card p-8 rounded-3xl h-full flex flex-col border-t-4 border-t-slate-300 dark:border-t-white/30 hover:scale-[1.02] transition-transform duration-300">
+                      <div className="mb-6">
+                        <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-white text-xs font-bold uppercase tracking-wider">{t.pricing.plans[0].tag}</span>
+                      </div>
+                      <h3 className="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2">{t.pricing.plans[0].title}</h3>
+                      <p className="text-slate-600 dark:text-white/60 text-sm mb-6 min-h-[40px]">{t.pricing.plans[0].desc}</p>
+                      
+                      <div className="mb-8">
+                         <span className="text-4xl font-bold text-slate-900 dark:text-white">{litePrice.toFixed(2)}€</span>
+                         <span className="text-xs text-slate-500 block mt-1">{t.pricing.plans[0].price_sub}</span>
+                      </div>
+
+                      <ul className="space-y-4 mb-8 flex-1">
+                         {t.pricing.plans[0].features.map((feat, i) => (
+                           <li key={i} className="flex items-start gap-3 text-sm text-slate-700 dark:text-white/80">
+                              <CheckCircle size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              {feat}
+                           </li>
+                         ))}
+                      </ul>
+
+                      <button onClick={() => scrollToSection('contact')} className="w-full py-3 rounded-xl border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+                         {t.pricing.cta}
+                      </button>
+                  </div>
+               </Reveal>
+
+               {/* PLUS PLAN (Highlighted) */}
+               <Reveal delay={150}>
+                  <div className="glass-card p-8 rounded-3xl h-full flex flex-col border-t-4 border-t-allpro-rose relative transform md:-translate-y-4 shadow-xl shadow-allpro-rose/10 bg-white/80 dark:bg-slate-900/60">
+                      <div className="absolute top-0 right-0 bg-allpro-rose text-white text-xs font-bold px-4 py-1 rounded-bl-xl rounded-tr-xl">POPULAIRE</div>
+                      <div className="mb-6">
+                        <span className="px-3 py-1 rounded-full bg-allpro-rose/10 text-allpro-rose text-xs font-bold uppercase tracking-wider">{t.pricing.plans[1].tag}</span>
+                      </div>
+                      <h3 className="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2">{t.pricing.plans[1].title}</h3>
+                      <p className="text-slate-600 dark:text-white/60 text-sm mb-6 min-h-[40px]">{t.pricing.plans[1].desc}</p>
+                      
+                      <div className="mb-8">
+                         <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-allpro">{plusPrice.toFixed(2)}€</span>
+                         <span className="text-xs text-slate-500 block mt-1">{t.pricing.plans[1].price_sub}</span>
+                      </div>
+
+                      <ul className="space-y-4 mb-8 flex-1">
+                         {t.pricing.plans[1].features.map((feat, i) => (
+                           <li key={i} className="flex items-start gap-3 text-sm text-slate-700 dark:text-white/90 font-medium">
+                              <CheckCircle size={16} className="text-allpro-rose shrink-0 mt-0.5" />
+                              {feat}
+                           </li>
+                         ))}
+                      </ul>
+
+                      <button onClick={() => scrollToSection('contact')} className="w-full py-3 rounded-xl bg-gradient-allpro text-white font-bold shadow-lg neon-btn hover:scale-[1.02] transition-transform">
+                         {t.pricing.cta}
+                      </button>
+                  </div>
+               </Reveal>
+
+               {/* PRO PLAN */}
+               <Reveal delay={300}>
+                  <div className="glass-card p-8 rounded-3xl h-full flex flex-col border-t-4 border-t-allpro-orange hover:scale-[1.02] transition-transform duration-300">
+                      <div className="mb-6">
+                        <span className="px-3 py-1 rounded-full bg-allpro-orange/10 text-allpro-orange text-xs font-bold uppercase tracking-wider">{t.pricing.plans[2].tag}</span>
+                      </div>
+                      <h3 className="text-3xl font-display font-bold text-slate-900 dark:text-white mb-2">{t.pricing.plans[2].title}</h3>
+                      <p className="text-slate-600 dark:text-white/60 text-sm mb-6 min-h-[40px]">{t.pricing.plans[2].desc}</p>
+                      
+                      <div className="mb-8">
+                         <span className="text-4xl font-bold text-slate-900 dark:text-white">Sur Devis</span>
+                         <span className="text-xs text-slate-500 block mt-1">
+                             {`> ${plusPrice.toFixed(0)}€ ${t.pricing.plans[2].price_sub}`}
+                         </span>
+                      </div>
+
+                      <ul className="space-y-4 mb-8 flex-1">
+                         {t.pricing.plans[2].features.map((feat, i) => (
+                           <li key={i} className="flex items-start gap-3 text-sm text-slate-700 dark:text-white/80">
+                              <CheckCircle size={16} className="text-allpro-orange shrink-0 mt-0.5" />
+                              {feat}
+                           </li>
+                         ))}
+                      </ul>
+
+                      <button onClick={() => scrollToSection('contact')} className="w-full py-3 rounded-xl border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+                         {t.pricing.cta}
+                      </button>
+                  </div>
+               </Reveal>
+            </div>
+            
+            <p className="text-center text-xs text-slate-500 dark:text-white/40 mt-8 italic">
+               {t.pricing.base_cost_note}
+            </p>
           </div>
         </section>
 
